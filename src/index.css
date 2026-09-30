@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+@theme {
+    --font-Nunito: "Nunito";
+    --font-Sans: "Open Sans";
+    --color-headclr: #11175D;
+    --color-btnclr: #5F35F5;
+    --color-blueSec: #03014C;
+    --color-orange: #EA6C00;
+}

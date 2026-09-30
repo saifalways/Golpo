@@ -1,12 +1,26 @@
-import React from 'react' 
+import React from 'react'
+
+import {
+  createRoutesFromElements,
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Registration from './Pages/Registration';
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Registration />}></Route>
+  )
+);
 
 
 const App = () => {
   return (
-    <div>  
-      <h1 className='bg-red-500'>saif</h1>
-    </div>
-  )
-}
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+};
 
-export default App
+export default App;
