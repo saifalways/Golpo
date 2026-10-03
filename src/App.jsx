@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import {
   createRoutesFromElements,
@@ -6,14 +6,17 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import Registration from './Pages/Registration';
+import Registration from "./Pages/Registration";
+import Login from "./Pages/Login";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Registration />}></Route>
-  )
+    <Route>
+      <Route path="/" element={<Registration />}></Route>
+      <Route path="/login" element={<Login  />}></Route>
+    </Route>,
+  ),
 );
-
 
 const App = () => {
   return (
