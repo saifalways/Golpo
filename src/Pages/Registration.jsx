@@ -7,9 +7,11 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import firebaseConfig from "../../firebaseConfig";
+import { ToastContainer, toast } from "react-toastify";
 
 const Registration = () => {
   const navigate = useNavigate();
+
   const auth = getAuth();
 
   let [email, setemail] = useState("");
@@ -54,21 +56,47 @@ const Registration = () => {
         "Enter a combination of at least six numbers, letters and punctuation marks (such as ! and &).",
       );
     }
-    if (email && emailRegex.test(email) && name && password && passwordRegex.test(password)) {
+    if (
+      email &&
+      emailRegex.test(email) &&
+      name &&
+      password &&
+      passwordRegex.test(password)
+    ) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          navigate("/login");
+          toast.success("Registration Successfully");
+
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
         })
         .catch((error) => {
           const errorCode = error.code;
           console.log(errorCode);
-          // ..
+
+          if (errorCode.includes("auth/email-already-in-use")) {
+            seterrorEmail("Email already used");
+          }
         });
     }
   };
 
   return (
     <Grid container>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <Grid size={6}>
         <div className="flex items-center justify-center h-full pl-80 ">
           <div className="flex flex-col">
@@ -94,7 +122,7 @@ const Registration = () => {
               id="outlined-basic"
               label="Full name"
               variant="outlined"
-              />
+            />
             <p className=" pl-3 mt-2  text-[#ec5541] text-[15px] ">
               {errorName}
             </p>

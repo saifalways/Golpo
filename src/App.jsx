@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from "react"; 
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -8,12 +7,14 @@ import {
 } from "react-router-dom";
 import Registration from "./Pages/Registration";
 import Login from "./Pages/Login";
+import Home from "./Pages/Home";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/" element={<Registration />}></Route>
-      <Route path="/login" element={<Login  />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/home" element={<Home />}></Route>
     </Route>,
   ),
 );
