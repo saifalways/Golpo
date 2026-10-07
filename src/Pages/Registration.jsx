@@ -5,7 +5,11 @@ import RegImg from "../assets/reg.png";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import firebaseConfig from "../../firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -65,11 +69,18 @@ const Registration = () => {
     ) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          toast.success("Registration Successfully");
 
-          setTimeout(() => {
-            navigate("/login");
-          }, 2000);
+          toast.success(`Registration Successfully
+             verify your email to login`); 
+
+          sendEmailVerification(auth.currentUser).then(() => {
+            
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+
+          });
+
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -86,7 +97,7 @@ const Registration = () => {
     <Grid container>
       <ToastContainer
         position="top-center"
-        autoClose={1000}
+        autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}

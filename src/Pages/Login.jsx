@@ -46,7 +46,13 @@ const Registration = () => {
     if (email && emailRegex.test(email) && password) {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          navigate("/home");
+
+          if (userCredential.user.emailVerified) {
+            navigate("/home");
+          } else {
+            toast.error("Verify your email to login");
+          }
+
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -87,12 +93,12 @@ const Registration = () => {
   let handleGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-      .then((result) => { 
-        navigate("/home")
+      .then((result) => {
+        navigate("/home");
       })
-      .catch((error) => { 
+      .catch((error) => {
         const errorCode = error.code;
-        console.log(errorCode); 
+        console.log(errorCode);
       });
   };
 
