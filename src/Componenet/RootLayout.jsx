@@ -7,10 +7,10 @@ const RootLayout = () => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid size={1}>
+        <Grid size={1.5}>
           <Sidebar />
         </Grid>
-        <Grid size={11}>
+        <Grid size={10.5}>
             <Outlet/>
         </Grid>
       </Grid>

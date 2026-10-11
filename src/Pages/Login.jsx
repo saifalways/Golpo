@@ -6,13 +6,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import {  getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, } from "firebase/auth";
 import { ToastContainer, toast } from "react-toastify";
 import { FaAngleLeft } from "react-icons/fa6";
 const Registration = () => {
@@ -94,7 +88,7 @@ const Registration = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        navigate("/home");
+        navigate("/root/home");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -182,7 +176,7 @@ const Registration = () => {
             <Button
               onClick={handleForgertPassword}
               variant="contained"
-              className=" capitalize! w-96 border-0! shadow-none! hover:bg-[#F2F2F2]! text-[16px]!  mb-9! py-4.5! font-Nunito font-semibold  bg-transparent! text-headclr!  text-xl! "
+              className=" capitalize! w-96 border-0! shadow-none! hover:bg-[#F2F2F2]! text-[16px]!  mb-9! py-4.5! font-Nunito font-semibold  bg-transparent! text-headclr!  text-xl! " 
             >
               Forgotten Password?
             </Button>
@@ -210,7 +204,7 @@ const Registration = () => {
                   />
 
                   <p className=" pl-3 mt-2  text-[#ec5541] text-[15px] ">
-                    {forgetErrorPassword}{" "}
+                    {forgetErrorPassword} 
                   </p>
 
                   <Button
