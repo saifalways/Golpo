@@ -42,7 +42,7 @@ const Registration = () => {
         .then((userCredential) => {
 
           if (userCredential.user.emailVerified) {
-            navigate("/home");
+            navigate("/root/home");
           } else {
             toast.error("Verify your email to login");
           }

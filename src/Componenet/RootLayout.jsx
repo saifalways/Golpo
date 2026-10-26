@@ -11,7 +11,9 @@ const RootLayout = () => {
           <Sidebar />
         </Grid>
         <Grid size={10.5}>
-            <Outlet/>
+            <div className="mr-6">
+              <Outlet/>
+            </div>
         </Grid>
       </Grid>
     </div>
