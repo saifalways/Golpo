@@ -12,10 +12,11 @@ import {
 } from "firebase/auth";
 import firebaseConfig from "../../firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
+import { getDatabase, push, ref, set } from "firebase/database";
 
 const Registration = () => {
   const navigate = useNavigate();
-
+  const db = getDatabase();
   const auth = getAuth();
 
   let [email, setemail] = useState("");
@@ -69,18 +70,22 @@ const Registration = () => {
     ) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          console.log(userCredential.user);
 
           toast.success(`Registration Successfully
-             verify your email to login`); 
+             verify your email to login`);
+
+          set(push(ref(db, "allusers/"  )), {
+            displayname: name,
+            email: userCredential.user.email,
+            uid: userCredential.user.uid,
+          });
 
           sendEmailVerification(auth.currentUser).then(() => {
-            
             setTimeout(() => {
               navigate("/login");
             }, 2000);
-
           });
-
         })
         .catch((error) => {
           const errorCode = error.code;
