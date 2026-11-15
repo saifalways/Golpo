@@ -18,14 +18,7 @@ const FriendRequest = () => {
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
         <GroupHeading name="Friend Request" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
+          <GroupMemberList name="Friends Reunion" bio="" /> 
         </div>
       </div>
     </div>

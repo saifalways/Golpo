@@ -2,26 +2,41 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const UserList = () => {
-  let [allUser, setallUser] = useState([]);
+  let [allUser, setallUser] = useState([]); 
 
   const db = getDatabase();
+
+  let data = useSelector((state) => state.counter.value.uid);
+
+  // console.log(data);
+  // console.log(allUser);
 
   useEffect(() => {
     const starCountRef = ref(db, "allusers");
     onValue(starCountRef, (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
-        arr.push(item.val());
+        if (data != item.val().uid) {
+          arr.push(item.val());
+        }
       });
       setallUser(arr);
     });
   }, []);
 
-  // console.log(allUser);
+  let handleAddFriend = (item) => {
+    set(push(ref(db, "friendRequestList/")), {
+      senderId: data,
+      senderName: "Saif Khan",
+      reciverId: item.uid,
+      reciverName: item.displayname,
+    });
+  };
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -38,9 +53,10 @@ const UserList = () => {
         <GroupHeading name="User List" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
           {allUser.map((item) => (
-            <GroupMemberList name={item.displayname} bio={item.email} />
+            <GroupMemberList  onClickForAdd={() => handleAddFriend(item)} name={item.displayname} bio={item.email} btnName="Add"  />
           ))}
         </div>
+        
       </div>
     </div>
   );

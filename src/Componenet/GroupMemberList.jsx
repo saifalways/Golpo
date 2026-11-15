@@ -1,6 +1,6 @@
 import React from "react";
 
-const GroupMemberList = ({ name, bio }) => {
+const GroupMemberList = ({ name, bio,onClickForAdd,btnName }) => {
   return (
     <div className="flex items-center justify-between mt-3 mb-4 ml-4  ">
       <div className="flex gap-8 items-center  ">
@@ -11,8 +11,8 @@ const GroupMemberList = ({ name, bio }) => {
         </div>
       </div>
       <div>
-        <button className="w-21.75 h-7.5 bg-btnclr rounded-sm text-white text-xl font-Poppins font-semibold mx-5 cursor-pointer ">
-          Join
+        <button onClick={onClickForAdd}  className="w-21.75 h-7.5 bg-btnclr rounded-sm text-white text-xl font-Poppins font-semibold mx-5 cursor-pointer ">
+          {btnName}
         </button>
       </div>
     </div>

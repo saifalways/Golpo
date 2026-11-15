@@ -59,7 +59,7 @@ const Sidebar = () => {
             <div className="absolute top-0 left-0 w-full h-full rounded-full  group-hover:bg-black/30 duration-500 flex items-center justify-center ">
               <IoCloudUpload className="text-xl   text-transparent group-hover:text-white duration-500 " />
             </div>
-            <h2 className="mt-28 text-center text-white font-Poppins text-xl ">
+            <h2 className="mt-28 text-center text-white font-Poppins text-[16px] ">
               {item.displayname}
             </h2>
           </div>
