@@ -3,7 +3,7 @@ import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
 
-const FriendRequest = () => {
+const Friends = () => {
   return (
     <div className="h-103.75  mt-7.5 ">
       <div className="relative shadow-2xl rounded-xl ">
@@ -16,20 +16,20 @@ const FriendRequest = () => {
         <PiDotsThreeVerticalBold className="text-xl absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer  text-btnclr " />
       </div>
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
-        <GroupHeading name="Friend Request" />
+        <GroupHeading name="Friends" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
         </div>
       </div>
     </div>
   );
 };
 
-export default FriendRequest;
+export default Friends;

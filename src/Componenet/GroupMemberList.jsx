@@ -1,6 +1,6 @@
 import React from "react";
 
-const GroupMemberList = ({ name, bio,onClickForAdd,btnName }) => {
+const GroupMemberList = ({ name, bio,onClickForAdd,acceptBtn,calcleBtnType,onClickforCancel,cancelBtn }) => {
   return (
     <div className="flex items-center justify-between mt-3 mb-4 ml-4  ">
       <div className="flex gap-8 items-center  ">
@@ -9,12 +9,18 @@ const GroupMemberList = ({ name, bio,onClickForAdd,btnName }) => {
           <h4 className="text-4.5 font-Poppins font-semibold">{name}</h4>
           <p className="text-4 font-Poppins font-normal">{bio}</p>
         </div>
-      </div>
-      <div>
-        <button onClick={onClickForAdd}  className="w-21.75 h-7.5 bg-btnclr rounded-sm text-white text-xl font-Poppins font-semibold mx-5 cursor-pointer ">
-          {btnName}
+      </div> 
+        <div >
+          {
+            calcleBtnType && 
+            <button onClick={onClickforCancel}  className="w-21.75 h-7.5 bg-red-500 rounded-sm text-white text-xl font-Poppins font-semibold mx-0 cursor-pointer ">
+          {cancelBtn}
         </button>
-      </div>
+          }
+        <button onClick={onClickForAdd}  className="w-21.75 h-7.5 bg-btnclr rounded-sm text-white text-xl font-Poppins font-semibold mx-5 cursor-pointer ">
+          {acceptBtn}
+        </button>
+          </div> 
     </div>
   );
 };

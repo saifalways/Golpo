@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import GroupList from "../Layout/GroupList";
 import Friends from "../Layout/Friends";
 import UserList from "../Layout/UserList";
-import FriendRequest from "../Layout/Friends";
+import FriendRequest from "../Layout/FriendRequest";
 import MyGroups from "../Layout/MyGroups";
 import BlockedUsers from "../Layout/BlockedUsers";
 import { useSelector } from "react-redux";

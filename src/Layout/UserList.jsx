@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const UserList = () => {
   let [allUser, setallUser] = useState([]); 
-
+  let [concateFriend,setconcateFriend]= useState([]);
   const db = getDatabase();
 
   let data = useSelector((state) => state.counter.value.uid);
@@ -38,6 +38,20 @@ const UserList = () => {
     });
   };
 
+    useEffect(() => {
+    const starCountRef = ref(db, "friendRequestList");
+    onValue(starCountRef, (snapshot) => { 
+      let arr = [];
+      snapshot.forEach((item) => {  
+        arr.push(item.val().reciverId + item.val().senderId);
+      }); 
+      setconcateFriend(arr);
+    });
+  }, []);
+
+  console.log(concateFriend);
+
+
   return (
     <div className="h-103.75  mt-7.5 ">
       <div className="relative shadow-2xl rounded-xl ">
@@ -53,10 +67,25 @@ const UserList = () => {
         <GroupHeading name="User List" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
           {allUser.map((item) => (
-            <GroupMemberList  onClickForAdd={() => handleAddFriend(item)} name={item.displayname} bio={item.email} btnName="Add"  />
+
+
+
+            concateFriend.includes(data + item.uid ) ||
+            concateFriend.includes(item.uid + data ) 
+             ?
+             <GroupMemberList    name={item.displayname} bio={item.email} acceptBtn="pending"  />
+             
+             :
+             <GroupMemberList  onClickForAdd={() => handleAddFriend(item)} name={item.displayname} bio={item.email} acceptBtn="Add"  />
+
+              
+              
+            
+
+
+
           ))}
         </div>
-        
       </div>
     </div>
   );
