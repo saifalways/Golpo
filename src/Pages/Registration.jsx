@@ -9,6 +9,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import firebaseConfig from "../../firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
@@ -75,10 +76,16 @@ const Registration = () => {
           toast.success(`Registration Successfully
              verify your email to login`);
 
-          set(push(ref(db, "allusers/"  )), {
-            displayname: name,
-            email: userCredential.user.email,
-            uid: userCredential.user.uid,
+          updateProfile(auth.currentUser, {
+            displayName: name,
+            photoURL: "https://i.ibb.co.com/TqWVw1hP/s.avif",
+          }).then(() => {
+            set(push(ref(db, "allusers/")), {
+              displayname: name,
+              email: userCredential.user.email,
+              uid: userCredential.user.uid,
+              photoURL: userCredential.user.photoURL,
+            });
           });
 
           sendEmailVerification(auth.currentUser).then(() => {

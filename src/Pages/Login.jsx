@@ -49,6 +49,7 @@ const Registration = () => {
     if (email && emailRegex.test(email) && password) {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
+          console.log(userCredential);
           if (userCredential.user.emailVerified) {
             dispatch(activeUserInfo(userCredential.user));
             localStorage.setItem(

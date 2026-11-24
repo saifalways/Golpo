@@ -2,8 +2,26 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { useEffect, useState } from "react";
 
 const Friends = () => {
+  const db = getDatabase();
+  let [friends, setfriends] = useState([]);
+
+  useEffect(() => {
+    const starCountRef = ref(db, "friends");
+    let arr = [];
+    onValue(starCountRef, (snapshot) => {
+      snapshot.forEach((item) => {
+        arr.push(item.val());
+      });
+      setfriends(arr);
+    });
+  }, []);
+
+  console.log(friends);
+
   return (
     <div className="h-103.75  mt-7.5 ">
       <div className="relative shadow-2xl rounded-xl ">
@@ -18,14 +36,16 @@ const Friends = () => {
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
         <GroupHeading name="Friends" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" acceptBtn="Add" />
+
+
+          {
+            friends.map((item)=>(
+              <GroupMemberList image={item.senderPhotoUrl}  name={item.senderName}  bio="Hi Guys, Wassup!"  acceptBtn="Friend" />
+            ))
+          }
+           
+
+
         </div>
       </div>
     </div>

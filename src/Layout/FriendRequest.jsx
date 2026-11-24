@@ -3,7 +3,7 @@ import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
 import { useEffect, useState } from "react";
-import { getDatabase, ref, onValue, remove } from "firebase/database";
+import { getDatabase, ref, onValue, remove, push, set } from "firebase/database";
 import { useSelector } from "react-redux";
 
 const FriendRequest = () => {
@@ -31,6 +31,15 @@ const FriendRequest = () => {
   let handlecancel = (item) => {
     remove(ref(db, "friendRequestList/" + item.id));
   };
+  
+  let handleFriend = (item) => {
+    console.log(item);
+     set(push(ref(db, 'friends/')), {
+       ...item
+      }).then(()=>{
+        remove(ref(db, "friendRequestList/" + item.id));
+      })
+  };
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -51,7 +60,11 @@ const FriendRequest = () => {
               data == item.reciverId && (
                 <GroupMemberList
                   calcleBtnType={true}
+                  image={item.senderPhotoUrl}
                   onClickforCancel={() => handlecancel(item)}
+                  onClickForAdd={() => {
+                    handleFriend(item);
+                  }}
                   cancelBtn="Cancel"
                   acceptBtn="Accept"
                   name={item.senderName}
