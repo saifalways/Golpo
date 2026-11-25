@@ -4,23 +4,29 @@ import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
 import { getDatabase, ref, onValue } from "firebase/database";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Friends = () => {
   const db = getDatabase();
   let [friends, setfriends] = useState([]);
 
+  let data = useSelector((state)=>state.counter.value)
+
+
   useEffect(() => {
     const starCountRef = ref(db, "friends");
-    let arr = [];
     onValue(starCountRef, (snapshot) => {
+      let arr = [];
       snapshot.forEach((item) => {
-        arr.push(item.val());
+        if(data.uid==item.val().reciverId || data.uid==item.val().senderId){ 
+           arr.push(item.val()); 
+        }
       });
       setfriends(arr);
     });
   }, []);
 
-  console.log(friends);
+  // console.log(data);
 
   return (
     <div className="h-103.75  mt-7.5 ">

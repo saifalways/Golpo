@@ -5,9 +5,9 @@ const GroupMemberList = ({ name,image, bio,onClickForAdd,acceptBtn,calcleBtnType
   return (
     <div className="flex items-center justify-between mt-3 mb-4 ml-4  ">
       <div className="flex gap-8 items-center  ">
-        <div className="w-17.5 h-17.5 rounded-full bg-red-300 ">
+        <div className="w-17.5 h-17.5 rounded-full bg-red-300 overflow-hidden ">
 
-        <Image className="rounded-full" src={image}  />
+        <Image className="rounded-full object-cover " src={image}  />
         </div>
         <div>
           <h4 className="text-4.5 font-Poppins font-semibold">{name}</h4>

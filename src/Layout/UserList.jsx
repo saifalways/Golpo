@@ -8,11 +8,11 @@ import { useSelector } from "react-redux";
 import Image from "../Componenet/Image";
 
 const UserList = () => {
-  let [allUser, setallUser] = useState([]); 
-  let [concateFriend,setconcateFriend]= useState([]);
+  let [allUser, setallUser] = useState([]);
+  let [concateFriend, setconcateFriend] = useState([]);
+  let [concateFriendForFriendBtn, setconcateFriendForFriendBtn] = useState([]);
   const db = getDatabase();
   let data = useSelector((state) => state.counter.value);
-
 
   // console.log(data);
   // console.log(allUser);
@@ -36,24 +36,36 @@ const UserList = () => {
       senderName: data.displayName,
       senderPhotoUrl: data.photoURL,
       reciverId: item.uid,
-      reciverName: item.displayname, 
+      reciverName: item.displayname,
       reciverPhotoUrl: item.photoURL,
     });
   };
 
-    useEffect(() => {
-    const starCountRef = ref(db, "friendRequestList");
-    onValue(starCountRef, (snapshot) => { 
+  useEffect(() => {
+    const starCountRef = ref(db, "friends/");
+    onValue(starCountRef, (snapshot) => {
       let arr = [];
-      snapshot.forEach((item) => {  
+      snapshot.forEach((item) => {
         arr.push(item.val().reciverId + item.val().senderId);
-      }); 
+      });
+      setconcateFriendForFriendBtn(arr);
+    });
+  }, []);
+
+  // console.log(concateFriendForFriendBtn);
+
+  useEffect(() => {
+    const starCountRef = ref(db, "friendRequestList");
+    onValue(starCountRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().reciverId + item.val().senderId);
+      });
       setconcateFriend(arr);
     });
   }, []);
 
   // console.log(concateFriend);
-
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -67,17 +79,25 @@ const UserList = () => {
         <PiDotsThreeVerticalBold className="text-xl absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer  text-btnclr " />
       </div>
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
-         
         <GroupHeading name="User List" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
-          
-          {allUser.map((item) => ( 
-            concateFriend.includes(data.uid + item.uid ) ||
-            concateFriend.includes(item.uid + data.uid ) 
-            ?
-             <GroupMemberList image={item.photoURL}   name={item.displayname} bio={item.email} acceptBtn="pending"  /> 
-            :
-             <GroupMemberList image={item.photoURL}  onClickForAdd={() => handleAddFriend(item)} name={item.displayname} bio={item.email} acceptBtn="Add"  />   ))}
+          {allUser.map((item) =>
+              concateFriendForFriendBtn.includes(data.uid + item.uid)||
+              concateFriendForFriendBtn.includes(item.uid + data.uid)
+              ?
+              <GroupMemberList image={item.photoURL} name={item.displayname}  bio={item.email}  acceptBtn="Friend" />
+             :
+
+            concateFriend.includes(data.uid + item.uid) ||
+            concateFriend.includes(item.uid + data.uid) ? (
+              <GroupMemberList image={item.photoURL} name={item.displayname}  bio={item.email}  acceptBtn="pending" />
+            ) :
+             (  <GroupMemberList  image={item.photoURL}  onClickForAdd={() => handleAddFriend(item)} name={item.displayname}  bio={item.email}   acceptBtn="Add"  />
+            ),
+          )}
+
+
+
         </div>
       </div>
     </div>

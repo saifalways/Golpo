@@ -33,7 +33,7 @@ const FriendRequest = () => {
   };
   
   let handleFriend = (item) => {
-    console.log(item);
+    // console.log(item);
      set(push(ref(db, 'friends/')), {
        ...item
       }).then(()=>{
