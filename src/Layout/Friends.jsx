@@ -2,29 +2,47 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
-import { getDatabase, ref, onValue } from "firebase/database";
+import {  getDatabase,  ref,  onValue,  set,  push, remove, } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const Friends = () => {
   const db = getDatabase();
   let [friends, setfriends] = useState([]);
-
-  let data = useSelector((state)=>state.counter.value)
-
+  let data = useSelector((state) => state.counter.value);
 
   useEffect(() => {
     const starCountRef = ref(db, "friends");
     onValue(starCountRef, (snapshot) => {
       let arr = [];
       snapshot.forEach((item) => {
-        if(data.uid==item.val().reciverId || data.uid==item.val().senderId){ 
-           arr.push(item.val()); 
+        if (
+          data.uid == item.val().reciverId ||
+          data.uid == item.val().senderId
+        ) {
+          arr.push(item.val());
         }
       });
       setfriends(arr);
     });
   }, []);
+
+  let handleBlock = (item) => {
+    set(push(ref(db, "block/")), {
+      id: item.id,
+      blockById: data.uid,
+      blockByName: data.displayName,
+      blockByPhotoURL: data.photoURL,
+      blockedId: item.senderId,
+      blockedName: item.senderName,
+      blockedPhotoURL: item.senderPhotoUrl,
+    }).then(() => { 
+       remove(ref(db, "friends/" + item.id));
+    });
+
+    // console.log(item)
+    // console.log(item.senderName);
+  };
 
   // console.log(data);
 
@@ -42,16 +60,20 @@ const Friends = () => {
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
         <GroupHeading name="Friends" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
+          {friends.map((item) => (
+            <GroupMemberList
+              image={item.senderPhotoUrl}
+              name={
+                data.uid == item.reciverId ? item.senderName : item.reciverName
+              }
+              bio="Hi Guys, Wassup!"
+              acceptBtn="Block"
+              onClickForAdd={() => handleBlock(item)}
+            />
 
-
-          {
-            friends.map((item)=>(
-              <GroupMemberList image={item.senderPhotoUrl}  name={item.senderName}  bio="Hi Guys, Wassup!"  acceptBtn="Friend" />
-            ))
-          }
-           
-
-
+            // console.log(item)
+          ))}
+          {/* {data.uid == item.senderId ? item.receiverName : item.senderName}  */}
         </div>
       </div>
     </div>
