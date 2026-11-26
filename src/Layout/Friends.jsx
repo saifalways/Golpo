@@ -2,7 +2,14 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
-import {  getDatabase,  ref,  onValue,  set,  push, remove, } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  set,
+  push,
+  remove,
+} from "firebase/database";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -20,12 +27,14 @@ const Friends = () => {
           data.uid == item.val().reciverId ||
           data.uid == item.val().senderId
         ) {
-          arr.push(item.val());
+          arr.push({ ...item.val(), id: item.key });
         }
       });
       setfriends(arr);
     });
   }, []);
+
+  // console.log(friends);
 
   let handleBlock = (item) => {
     set(push(ref(db, "block/")), {
@@ -33,15 +42,15 @@ const Friends = () => {
       blockById: data.uid,
       blockByName: data.displayName,
       blockByPhotoURL: data.photoURL,
-      blockedId: item.senderId,
-      blockedName: item.senderName,
-      blockedPhotoURL: item.senderPhotoUrl,
-    }).then(() => { 
-       remove(ref(db, "friends/" + item.id));
+      blockedId: data.uid == item.senderId ? item.reciverId : item.senderId,
+      blockedName: data.uid == item.senderId ? item.reciverName : item.senderName,
+      blockedPhotoURL: data.uid == item.senderId ? item.reciverPhotoUrl : item.reciverPhotoUrl,
+    }).then(()=>{
+      remove(ref(db,"friends/" + item.id))
     });
 
-    // console.log(item)
-    // console.log(item.senderName);
+    // console.log(data.uid);
+    // console.log(item);
   };
 
   // console.log(data);

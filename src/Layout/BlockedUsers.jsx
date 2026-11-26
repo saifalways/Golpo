@@ -2,8 +2,14 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
+import { getDatabase, ref, set } from "firebase/database";
+
 
 const BlockedUsers = () => {
+
+    const db = getDatabase();
+
+
   return (
     <div className="h-103.75  mt-7.5 ">
       <div className="relative shadow-2xl rounded-xl ">
