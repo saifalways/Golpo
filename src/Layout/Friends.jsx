@@ -45,7 +45,8 @@ const Friends = () => {
       blockedId: data.uid == item.senderId ? item.reciverId : item.senderId,
       blockedName: data.uid == item.senderId ? item.reciverName : item.senderName,
       blockedPhotoURL: data.uid == item.senderId ? item.reciverPhotoUrl : item.reciverPhotoUrl,
-    }).then(()=>{
+    })
+    .then(()=>{
       remove(ref(db,"friends/" + item.id))
     });
 

@@ -2,13 +2,33 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
-import { getDatabase, ref, set } from "firebase/database";
-
+import { getDatabase, onValue, ref, set } from "firebase/database";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const BlockedUsers = () => {
+  const db = getDatabase();
+  let [block, setBlock] = useState([]);
 
-    const db = getDatabase();
+ let data = useSelector((state) => state.counter.value);
 
+
+  useEffect(() => {
+    const starCountRef = ref(db, "block");
+    onValue(starCountRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        if(data.uid==item.val().blockById || data.uid==item.val().blockedId )
+        arr.push({...item.val(),id:item.key});
+
+        // console.log(item.val());
+
+      });
+      setBlock(arr);
+    });
+  }, []);
+
+  console.log(block);
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -24,14 +44,11 @@ const BlockedUsers = () => {
       <div className="w-full h-83 rounded-xl bg-red-100 mt-6 px-3">
         <GroupHeading name="Blocked Users" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
-          <GroupMemberList name="Friends Reunion" bio="Hi Guys, Wassup!" />
+          {block.map((item) => (
+ 
+            <GroupMemberList  image={item.blockedPhotoURL} name={item.blockedName}  bio={item.blockByName}  acceptBtn="Unblock"  />
+            // <h2>ji</h2>
+          ))}
         </div>
       </div>
     </div>
