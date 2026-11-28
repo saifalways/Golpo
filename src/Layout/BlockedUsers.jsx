@@ -2,7 +2,7 @@ import { IoSearch } from "react-icons/io5";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 import GroupHeading from "../Componenet/GroupHeading";
 import GroupMemberList from "../Componenet/GroupMemberList";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { getDatabase, onValue, ref, remove, set } from "firebase/database";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -28,7 +28,9 @@ const BlockedUsers = () => {
     });
   }, []);
 
-  console.log(block);
+  let handleUnblock = (item) => {
+    remove(ref(db, "block/" + item.id))
+  };
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -46,8 +48,7 @@ const BlockedUsers = () => {
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
           {block.map((item) => (
  
-            <GroupMemberList  image={item.blockedPhotoURL} name={item.blockedName}  bio={item.blockByName}  acceptBtn="Unblock"  />
-            // <h2>ji</h2>
+            <GroupMemberList onClickForAdd={()=>handleUnblock(item)} image={item.blockedPhotoURL} name={data.uid == item.blockById ? item.blockedName : item.blockByName} acceptBtn="Unblock" /> 
           ))}
         </div>
       </div>

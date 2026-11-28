@@ -11,12 +11,11 @@ const UserList = () => {
   let [allUser, setallUser] = useState([]);
   let [concateFriend, setconcateFriend] = useState([]);
   let [concateFriendForFriendBtn, setconcateFriendForFriendBtn] = useState([]);
+  let [concateBlock, setconcateBlock] = useState([]);
   const db = getDatabase();
   let data = useSelector((state) => state.counter.value);
 
-  // console.log(data);
-  // console.log(allUser);
-
+  //  alluser
   useEffect(() => {
     const starCountRef = ref(db, "allusers");
     onValue(starCountRef, (snapshot) => {
@@ -30,6 +29,7 @@ const UserList = () => {
     });
   }, []);
 
+  // friendRequestList white
   let handleAddFriend = (item) => {
     set(push(ref(db, "friendRequestList/")), {
       senderId: data.uid,
@@ -41,6 +41,7 @@ const UserList = () => {
     });
   };
 
+  // friends white
   useEffect(() => {
     const starCountRef = ref(db, "friends/");
     onValue(starCountRef, (snapshot) => {
@@ -52,8 +53,7 @@ const UserList = () => {
     });
   }, []);
 
-  // console.log(concateFriendForFriendBtn);
-
+  // friendRequestList read
   useEffect(() => {
     const starCountRef = ref(db, "friendRequestList");
     onValue(starCountRef, (snapshot) => {
@@ -65,7 +65,18 @@ const UserList = () => {
     });
   }, []);
 
-  // console.log(concateFriend);
+  useEffect(() => {
+    const starCountRef = ref(db, "block");
+    onValue(starCountRef, (snapshot) => {
+      let arr = [];
+      snapshot.forEach((item) => {
+        arr.push(item.val().blockById + item.val().blockedId);
+      });
+      setconcateBlock(arr);
+    });
+  }, []);
+
+  console.log(concateBlock);
 
   return (
     <div className="h-103.75  mt-7.5 ">
@@ -82,22 +93,37 @@ const UserList = () => {
         <GroupHeading name="User List" />
         <div className="overflow-y-scroll scrollbar-none w-full h-66">
           {allUser.map((item) =>
-              concateFriendForFriendBtn.includes(data.uid + item.uid)||
-              concateFriendForFriendBtn.includes(item.uid + data.uid)
-              ?
-              <GroupMemberList image={item.photoURL} name={item.displayname}  bio={item.email}  acceptBtn="Friend" />
-             :
+            concateBlock.includes(data.uid + item.uid) ||
+            concateBlock.includes(item.uid + data.uid) ? 
+            
+            null
 
-            concateFriend.includes(data.uid + item.uid) ||
-            concateFriend.includes(item.uid + data.uid) ? (
-              <GroupMemberList image={item.photoURL} name={item.displayname}  bio={item.email}  acceptBtn="pending" />
-            ) :
-             (  <GroupMemberList  image={item.photoURL}  onClickForAdd={() => handleAddFriend(item)} name={item.displayname}  bio={item.email}   acceptBtn="Add"  />
+            : concateFriendForFriendBtn.includes(data.uid + item.uid) ||
+              concateFriendForFriendBtn.includes(item.uid + data.uid) ? (
+              <GroupMemberList
+                image={item.photoURL}
+                name={item.displayname}
+                bio={item.email}
+                acceptBtn="Friend"
+              />
+            ) : concateFriend.includes(data.uid + item.uid) ||
+              concateFriend.includes(item.uid + data.uid) ? (
+              <GroupMemberList
+                image={item.photoURL}
+                name={item.displayname}
+                bio={item.email}
+                acceptBtn="pending"
+              />
+            ) : (
+              <GroupMemberList
+                image={item.photoURL}
+                onClickForAdd={() => handleAddFriend(item)}
+                name={item.displayname}
+                bio={item.email}
+                acceptBtn="Add"
+              />
             ),
           )}
-
-
-
         </div>
       </div>
     </div>
